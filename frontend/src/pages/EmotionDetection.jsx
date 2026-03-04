@@ -12,8 +12,6 @@ function EmotionDetection() {
 
   const loadModels = async () => {
     const MODEL_URL = "/models";
-
-    // Load the tiny face detector & face expression models
     await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
     await faceapi.nets.faceExpressionNet.loadFromUri(MODEL_URL);
   };
@@ -27,23 +25,21 @@ function EmotionDetection() {
   };
 
   const handleVideoOnPlay = () => {
-    const canvas = faceapi.createCanvasFromMedia(videoRef.current);
-    canvasRef.current.innerHTML = "";
-    canvasRef.current.append(canvas);
+    const video = videoRef.current;
+    const canvas = canvasRef.current;
 
-    const displaySize = {
-      width: videoRef.current.videoWidth,
-      height: videoRef.current.videoHeight
-    };
+    // Match canvas size to video
+    canvas.width = video.videoWidth;
+    canvas.height = video.videoHeight;
 
-    faceapi.matchDimensions(canvas, displaySize);
+    faceapi.matchDimensions(canvas, { width: canvas.width, height: canvas.height });
 
-    setInterval(async () => {
+    const interval = setInterval(async () => {
       const detections = await faceapi
-        .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+        .detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
         .withFaceExpressions();
 
-      const resized = faceapi.resizeResults(detections, displaySize);
+      const resized = faceapi.resizeResults(detections, { width: canvas.width, height: canvas.height });
 
       const ctx = canvas.getContext("2d");
       ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -55,14 +51,17 @@ function EmotionDetection() {
           expressions[a] > expressions[b] ? a : b
         );
 
-        // Draw green box + emotion label
         const drawBox = new faceapi.draw.DrawBox(box, {
           label: emotion.toUpperCase(),
-          boxColor: "lime"
+          boxColor: "lime",
+          lineWidth: 2
         });
         drawBox.draw(canvas);
       });
-    }, 200); // every 200ms
+    }, 200);
+
+    // Cleanup on unmount
+    return () => clearInterval(interval);
   };
 
   return (
@@ -76,7 +75,10 @@ function EmotionDetection() {
         width="640"
         height="480"
       />
-      <div ref={canvasRef} className="absolute top-0 left-0" />
+      <canvas
+        ref={canvasRef}
+        className="absolute top-0 left-0 rounded-lg"
+      />
     </div>
   );
 }
