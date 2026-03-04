@@ -65,21 +65,23 @@ function EmotionDetection() {
   };
 
   return (
-    <div className="relative flex justify-center mt-6">
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        onPlay={handleVideoOnPlay}
-        className="rounded-lg shadow-lg"
-        width="640"
-        height="480"
-      />
-      <canvas
-        ref={canvasRef}
-        className="absolute top-0 left-0 rounded-lg"
-      />
-    </div>
+    <div className="flex justify-center mt-6">
+  <div className="relative inline-block">
+    <video
+      ref={videoRef}
+      autoPlay
+      muted
+      onPlay={handleVideoOnPlay}
+      className="rounded-lg shadow-lg"
+      width="640"
+      height="480"
+    />
+    <canvas
+      ref={canvasRef}
+      className="absolute top-0 left-0 rounded-lg"
+    />
+  </div>
+</div>
   );
 }
 
