@@ -127,7 +127,7 @@ export default function TherapistHomePage() {
         
               <img src={eztherapylogo} alt="Logo" className="h-10 w-10 object-contain scale-200 ml-7" />
   
-            <h1 className="text-xl font-bold tracking-tight">EZTherapy</h1>
+            <h1 className="text-xl font-bold tracking-tight ml-5">EZTherapy</h1>
           </div>
 
           <nav className="space-y-1">
@@ -167,7 +167,7 @@ export default function TherapistHomePage() {
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="h-20 bg-white border-b border-slate-200 px-8 flex items-center justify-between">
+        <header className="h-20 bg-indigo-600 border-b border-slate-200 px-8 flex items-center justify-between">
           <div className="flex items-center gap-4 bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 w-96">
             <Search size={18} className="text-slate-400" />
             <input 
@@ -185,7 +185,7 @@ export default function TherapistHomePage() {
             <div className="h-8 w-px bg-slate-200" />
             <div className="flex items-center gap-3">
               <div className="text-right">
-                <p className="text-sm font-bold">John Pork</p>
+                <p className="text-sm font-bold text-white">John Pork</p>
                 <p className="text-[10px] text-slate-400 font-bold uppercase tracking-wider">Therapy Patient</p>
               </div>
               <img 
